@@ -1,0 +1,104 @@
+/* Reset padrão */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* Layout Principal */
+.App {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: background-color 0.8s ease;
+}
+
+/* Temas de Estado */
+.App.normal {
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+.App.alerta {
+  background-color: #d32f2f; /* Vermelho institucional */
+  color: white;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container do Status */
+.status-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+/* Glassmorphism Cards */
+.card-alerta, .card-normal {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-alerta h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* Botão de Ação */
+.btn-atender {
+  background-color: #ffffff;
+  color: #d32f2f;
+  border: none;
+  padding: 15px 35px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-atender:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+.btn-atender:active {
+  transform: scale(0.98);
+}
+
+/* Keyframes */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Breakpoints */
+@media (max-width: 600px) {
+  .App-header h1 { font-size: 1.8rem; }
+  .card-alerta, .card-normal { padding: 25px; }
+}
