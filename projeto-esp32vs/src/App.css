@@ -1,104 +1,228 @@
-/* Reset padrão */
-* {
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  overflow: hidden;
-}
-
-/* Layout Principal */
-.App {
-  height: 100vh;
-  width: 100vw;
+/* ─────────────────────────────────────────
+   Fundo geral da tela
+   Fica marrom escuro no estado normal e
+   pisca para vermelho quando tem chamado
+───────────────────────────────────────── */
+.wrap {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  transition: background-color 0.8s ease;
+  padding: 2rem 1rem;
+  background: #1e0c02;
+  transition: background 0.5s;
 }
 
-/* Temas de Estado */
-.App.normal {
-  background-color: #f4f4f9;
-  color: #333;
+.wrap.alerta {
+  animation: flash 1s ease-in-out infinite;
 }
 
-.App.alerta {
-  background-color: #d32f2f; /* Vermelho institucional */
-  color: white;
+@keyframes flash {
+  0%, 100% { background: #1e0c02; }
+  50%       { background: #5a0a00; }
 }
 
-.App-header {
+/* ─────────────────────────────────────────
+   Nome do restaurante no topo
+───────────────────────────────────────── */
+.brand-row {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+  margin-bottom: 2rem;
 }
 
-/* Container do Status */
-.status-container {
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: #f5e6c8;
+  letter-spacing: 0.03em;
+}
+
+/* ─────────────────────────────────────────
+   Barrinhas de vapor animadas do logo
+───────────────────────────────────────── */
+.steam {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  gap: 3px;
+  align-items: flex-end;
+}
+
+.steam span {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: #d4731a;
+}
+
+.steam span:nth-child(1) { height: 12px; animation: s1 1.5s ease-in-out infinite; }
+.steam span:nth-child(2) { height: 18px; animation: s2 1.5s ease-in-out infinite 0.25s; }
+.steam span:nth-child(3) { height: 9px;  animation: s1 1.5s ease-in-out infinite 0.5s; }
+
+@keyframes s1 {
+  0%, 100% { height: 12px; opacity: 1; }
+  50%       { height: 6px;  opacity: 0.4; }
+}
+
+@keyframes s2 {
+  0%, 100% { height: 18px; opacity: 1; }
+  50%       { height: 10px; opacity: 0.4; }
+}
+
+/* ─────────────────────────────────────────
+   Card central — muda de estilo conforme
+   o estado (idle = tranquilo, alert = chamado)
+───────────────────────────────────────── */
+.big-card {
   width: 100%;
-  max-width: 600px;
-  margin-top: 20px;
-}
-
-/* Glassmorphism Cards */
-.card-alerta, .card-normal {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
+  max-width: 380px;
   border-radius: 20px;
-  padding: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: all 0.4s;
 }
 
-.card-alerta h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  animation: pulse 1.5s infinite;
+.big-card.idle {
+  background: #2a1005;
+  border: 2px solid #4a2008;
 }
 
-/* Botão de Ação */
-.btn-atender {
-  background-color: #ffffff;
-  color: #d32f2f;
-  border: none;
-  padding: 15px 35px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border-radius: 50px;
-  cursor: pointer;
+/* Borda do card também pisca no alerta */
+.big-card.alert {
+  background: #3a0505;
+  border: 2px solid #cc2200;
+  animation: card-pulse 1s ease-in-out infinite;
+}
+
+@keyframes card-pulse {
+  0%, 100% { border-color: #cc2200; }
+  50%       { border-color: #ff5533; }
+}
+
+/* ─────────────────────────────────────────
+   Ícone grande (☕ ou 🔔)
+   O sino balança quando tem chamado
+───────────────────────────────────────── */
+.big-icon {
+  font-size: 72px;
+  line-height: 1;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+
+.ring-anim {
+  animation: bigring 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes bigring {
+  0%   { transform: rotate(-12deg) scale(1.05); }
+  100% { transform: rotate(12deg)  scale(1.05); }
+}
+
+/* ─────────────────────────────────────────
+   Pílula "Andar de cima" — só aparece
+   no estado de alerta
+───────────────────────────────────────── */
+.floor-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #4a1008;
+  color: #ff9070;
+  border: 1px solid #8a2010;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.btn-atender:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.05);
+/* ─────────────────────────────────────────
+   Textos do card
+───────────────────────────────────────── */
+.big-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
 }
 
-.btn-atender:active {
-  transform: scale(0.98);
+.big-label.idle  { color: #7a4018; }
+.big-label.alert { color: #ff7755; }
+
+.big-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
 }
 
-/* Keyframes */
-@keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.7; }
-  100% { opacity: 1; }
+.big-title.idle  { color: #c8a06a; }
+.big-title.alert { color: #ffffff; }
+
+.big-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 2rem;
 }
 
-/* Breakpoints */
-@media (max-width: 600px) {
-  .App-header h1 { font-size: 1.8rem; }
-  .card-alerta, .card-normal { padding: 25px; }
+.big-sub.idle  { color: #7a4020; }
+.big-sub.alert { color: #ffb090; }
+
+/* Texto discreto no estado tranquilo */
+.idle-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #4a2010;
+  margin-top: 1.5rem;
+}
+
+/* ─────────────────────────────────────────
+   Botão "Já atendi!" — grande e laranja
+   pra ser fácil de apertar na correria
+───────────────────────────────────────── */
+.btn-attend {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #d4731a;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s, transform 0.1s;
+  letter-spacing: 0.01em;
+}
+
+.btn-attend:hover  { background: #b85a10; }
+.btn-attend:active { transform: scale(0.97); }
+
+/* ─────────────────────────────────────────
+   Ajustes pra telas pequenas (celular)
+───────────────────────────────────────── */
+@media (max-width: 420px) {
+  .big-title { font-size: 26px; }
+  .big-icon  { font-size: 60px; }
 }
